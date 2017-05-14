@@ -2,6 +2,15 @@
 
 Another :star:theme for oh-my-zsh
 
+## Installation
+1. Copy file `zeta.zsh-theme` to `$ZSH_CUSTOM/themes` folder.
+(You may need to create `themes` folder if it doesn't exist)
+
+2. Set theme to `zeta` in `~/.zshrc`:
+```
+ZSH_THEME="zeta"
+```
+
 ## Screenshot
 ![screenshot](screenshot.png)
 
