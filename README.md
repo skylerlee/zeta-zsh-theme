@@ -30,5 +30,14 @@ ZSH_THEME="zeta"
     * `?` —— Untracked changes
 * Prompt indicator turns red if the last run fails
 
+## Notice
+It would be better to put theme file into the `$ZSH_CUSTOM` folder, instead of
+`~/.oh-my-zsh/themes`.
+Because files under `~/.oh-my-zsh/custom/` folder are ignored by git, and will
+leave the working directory clean.
+
+You can get more help from oh-my-zsh:
+[Custom Theme](https://github.com/robbyrussell/oh-my-zsh/wiki/Customization#overriding-and-adding-themes)
+
 ## License
 The MIT License.
