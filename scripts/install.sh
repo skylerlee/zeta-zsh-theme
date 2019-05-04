@@ -33,7 +33,8 @@ function fetch_file {
 }
 
 function set_theme {
-  sed -i.bak -e "s/^ZSH_THEME=[\"']\?[A-Za-z0-9\._-]\+[\"']\?/ZSH_THEME=\"$1\"/1" $HOME/.zshrc
+  # https://en.wikipedia.org/wiki/Regular_expression#POSIX_basic_and_extended
+  sed -i.bak -e "s/^ZSH_THEME=[\"']\{0,1\}[A-Za-z0-9\._-]*[\"']\{0,1\}/ZSH_THEME=\"$1\"/1" $HOME/.zshrc
 }
 
 echo "Installing ..."
