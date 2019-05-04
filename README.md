@@ -2,6 +2,10 @@
 
 Another :star:theme for oh-my-zsh
 
+## Screenshot
+
+![screenshot](https://user-images.githubusercontent.com/6789491/57182938-68197180-6ed8-11e9-9171-74b4618be62f.jpg)
+
 ## Installation
 
 ### Via curl
@@ -19,10 +23,6 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme
 ```
 ZSH_THEME="zeta"
 ```
-
-## Screenshot
-
-![screenshot](https://user-images.githubusercontent.com/6789491/57182938-68197180-6ed8-11e9-9171-74b4618be62f.jpg)
 
 ## Features
 
