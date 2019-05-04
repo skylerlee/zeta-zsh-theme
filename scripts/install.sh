@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 THEME_ZSH_FILE=https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/zeta.zsh-theme
+ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
 function init_colors {
   if which tput >/dev/null 2>&1; then
