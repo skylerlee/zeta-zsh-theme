@@ -10,6 +10,10 @@ function fetch_file {
   curl -fsSL "$file_url" > $dest_dir/$file_name
 }
 
+function set_theme {
+  sed -i.bak -e "s/^ZSH_THEME=[\"']\?[A-Za-z0-9\._-]\+[\"']\?/ZSH_THEME=\"$1\"/1" $HOME/.zshrc
+}
+
 fetch_file $THEME_ZSH_FILE $ZSH_CUSTOM/themes
-sed -i.bak -e "s/^ZSH_THEME=[\"']\?[A-Za-z0-9\._-]\+[\"']\?/ZSH_THEME=\"zeta\"/1" $HOME/.zshrc
+set_theme zeta
 env zsh -l
