@@ -1,4 +1,4 @@
-# Zeta ZSH Theme
+# ζ(Zeta) ZSH Theme
 
 Another :star:theme for oh-my-zsh
 
