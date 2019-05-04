@@ -4,6 +4,12 @@ Another :star:theme for oh-my-zsh
 
 ## Installation
 
+### Via curl
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/scripts/install.sh)"
+```
+
 ### Manually
 
 1. Copy file `zeta.zsh-theme` to `$ZSH_CUSTOM/themes` folder.
