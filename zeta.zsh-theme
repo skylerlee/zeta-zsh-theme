@@ -24,6 +24,7 @@ local white_bold=$fg_bold[white]
 local highlight_bg=$bg[red]
 
 local zeta='ζ'
+VIRTUAL_ENV_DISABLE_PROMPT=true
 
 # Machine name.
 function get_box_name {
