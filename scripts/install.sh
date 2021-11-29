@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-THEME_ZSH_FILE=https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/zeta.zsh-theme
+THEME_ZSH_FILE=https://raw.githubusercontent.com/gonzalezzfelipe/zeta-zsh-theme/master/zeta.zsh-theme
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
 function init_colors {

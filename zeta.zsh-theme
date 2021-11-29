@@ -24,6 +24,7 @@ local white_bold=$fg_bold[white]
 local highlight_bg=$bg[red]
 
 local zeta='ζ'
+VIRTUAL_ENV_DISABLE_PROMPT=true
 
 # Machine name.
 function get_box_name {
@@ -94,17 +95,76 @@ function get_space {
     echo $space
 }
 
+function get_virtualenv_prompt {
+    local virtualenv_path="$VIRTUAL_ENV"
+    if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
+        echo "(%{$green%}$(basename $virtualenv_path)%{$reset_color%})"
+    else
+        echo ""
+    fi
+}
+
+function build_left_prompt {
+    # Left
+    local user="%{$blue%}# %{$green_bold%}$(get_usr_name)"
+    local user_machine_join="%{$blue%}@"
+    local machine="%{$cyan_bold%}$(get_box_name)"
+    local user_dir_join="%{$cyan_bold%}: "
+    local dir="%{$yellow_bold%}$(get_current_dir)%{$reset_color%}"
+    local git_prompt="$(get_git_prompt)"
+    local venv_prompt="$(get_virtualenv_prompt)"
+
+    local max_size=$(( $COLUMNS - 13 ))
+
+    local left_prompt="$user$user_machine_join$machine$user_dir_join$dir$git_prompt$venv_prompt"
+    local zero='%([BSUbfksu]|([FB]|){*})'
+    local len=${#${(S%%)left_prompt//$~zero/}}
+
+    if [[ $len -lt $max_size ]]; then
+        echo $left_prompt
+        return
+    fi
+
+    left_prompt="$user$user_dir_join$dir$git_prompt$venv_prompt"
+    len=${#${(S%%)left_prompt//$~zero/}}
+
+    if [[ $len -lt $max_size ]]; then
+        echo $left_prompt
+        return
+    fi
+
+    if [[ -n $VIRTUAL_ENV ]]; then
+        venv_prompt="(🐍)"
+    fi
+
+    left_prompt="$user$user_dir_join$dir$git_prompt$venv_prompt"
+    len=${#${(S%%)left_prompt//$~zero/}}
+
+    if [[ $len -lt $max_size ]]; then
+        echo $left_prompt
+        return
+    fi
+
+    left_prompt="$user$user_dir_join$dir$venv_prompt"
+    len=${#${(S%%)left_prompt//$~zero/}}
+
+    if [[ $len -lt $max_size ]]; then
+        echo $left_prompt
+        return
+    fi
+
+    left_prompt="$user$user_dir_join$venv_prompt"
+    echo $left_prompt
+}
+
 # Prompt: # USER@MACHINE: DIRECTORY <BRANCH [STATUS]> --- (TIME_STAMP)
 # > command
 function print_prompt_head {
-    local left_prompt="\
-%{$blue%}# \
-%{$green_bold%}$(get_usr_name)\
-%{$blue%}@\
-%{$cyan_bold%}$(get_box_name): \
-%{$yellow_bold%}$(get_current_dir)%{$reset_color%}\
-$(get_git_prompt) "
+    # Left
+    local left_prompt="$(build_left_prompt)"
+    # Right
     local right_prompt="%{$blue%}($(get_time_stamp))%{$reset_color%} "
+
     print -rP "$left_prompt$(get_space $left_prompt $right_prompt)$right_prompt"
 }
 
@@ -121,4 +181,3 @@ add-zsh-hook precmd print_prompt_head
 setopt prompt_subst
 
 PROMPT='$(get_prompt_indicator)'
-RPROMPT='$(git_prompt_short_sha) '
