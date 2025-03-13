@@ -96,7 +96,7 @@ function get_space {
 
 # Prompt: # USER@MACHINE: DIRECTORY <BRANCH [STATUS]> --- (TIME_STAMP)
 # > command
-function print_prompt_head {
+function get_prompt_header {
     local left_prompt="\
 %{$blue%}# \
 %{$green_bold%}$(get_usr_name)\
@@ -116,9 +116,8 @@ function get_prompt_indicator {
     fi
 }
 
-autoload -U add-zsh-hook
-add-zsh-hook precmd print_prompt_head
 setopt prompt_subst
 
-PROMPT='$(get_prompt_indicator)'
+PROMPT='$(get_prompt_header)
+$(get_prompt_indicator)'
 RPROMPT='$(git_prompt_short_sha) '
