@@ -105,7 +105,7 @@ function get_prompt_header {
 %{$yellow_bold%}$(get_current_dir)%{$reset_color%}\
 $(get_git_prompt) "
     local right_prompt="%{$blue%}($(get_time_stamp))%{$reset_color%} "
-    print -rP "$left_prompt$(get_space $left_prompt $right_prompt)$right_prompt"
+    echo "$left_prompt$(get_space $left_prompt $right_prompt)$right_prompt"
 }
 
 function get_prompt_indicator {
