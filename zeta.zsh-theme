@@ -121,3 +121,13 @@ setopt prompt_subst
 PROMPT='$(get_prompt_header)
 $(get_prompt_indicator)'
 RPROMPT='$(git_prompt_short_sha) '
+
+# Workaround for async git handler
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/git.zsh#L64
+local _style
+if zstyle -t ':omz:alpha:lib:git' async-prompt \
+  || { is-at-least 5.0.6 && zstyle -T ':omz:alpha:lib:git' async-prompt } \
+  || { zstyle -s ':omz:alpha:lib:git' async-prompt _style && [[ $_style == "force" ]] }; then
+    _omz_register_handler _omz_git_prompt_info
+    _omz_register_handler _omz_git_prompt_status
+fi
