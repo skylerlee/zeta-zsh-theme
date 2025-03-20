@@ -14,6 +14,13 @@ Another :star:theme for oh-my-zsh
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/scripts/install.sh)"
 ```
 
+### Fig
+
+
+Install `zeta-zsh-theme` with [Fig](https://fig.io) in just one click.
+
+<a href="https://fig.io/plugins/other/zeta-zsh-theme_skylerlee" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a>
+
 ### Manually
 
 1. Copy file `zeta.zsh-theme` to `$ZSH_CUSTOM/themes` folder.
