@@ -51,7 +51,7 @@ function get_current_dir {
 # Git info.
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$blue_bold%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$green_bold%} ✔ "
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$green_bold%}✔"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$red_bold%} ✘ "
 
 # Git status.
@@ -68,13 +68,50 @@ ZSH_THEME_GIT_PROMPT_SHA_AFTER="%{$reset_color%}]"
 
 function get_git_prompt {
     if [[ -n $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
-        local git_status="$(git_prompt_status)"
+        local branch_name=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+        local git_status=$(git_prompt_status)
         if [[ -n $git_status ]]; then
             git_status="[$git_status%{$reset_color%}]"
         fi
-        local git_prompt=" <$(git_prompt_info)$git_status>"
+        local git_prompt=" <${branch_name}${git_status}>"
         echo $git_prompt
     fi
+}
+
+function git_prompt_status {
+    local git_status="$(git status --porcelain 2>/dev/null)"
+    local status_string=""
+
+    # Iterate over each line of git status output
+    while IFS= read -r line; do
+        # Extract the index status (first character) and working directory status (second character)
+        local index_status="${line:0:1}"
+        local worktree_status="${line:1:1}"
+
+        # Determine status based on index and worktree status
+        case "$index_status" in
+            "A") status_string+="$ZSH_THEME_GIT_PROMPT_ADDED" ;;
+            "M") status_string+="$ZSH_THEME_GIT_PROMPT_MODIFIED" ;;
+            "D") status_string+="$ZSH_THEME_GIT_PROMPT_DELETED" ;;
+            "R") status_string+="$ZSH_THEME_GIT_PROMPT_RENAMED" ;;
+            "C") status_string+="$ZSH_THEME_GIT_PROMPT_MODIFIED" ;; # Copied files, treat as modified
+            " ") ;; # No action if index status is a space, as it could be handled by worktree status
+        esac
+
+        case "$worktree_status" in
+            "M") status_string+="$ZSH_THEME_GIT_PROMPT_MODIFIED" ;; # Modified but not staged
+            "D") status_string+="$ZSH_THEME_GIT_PROMPT_DELETED" ;; # Deleted but not staged
+            "?") status_string+="$ZSH_THEME_GIT_PROMPT_UNTRACKED" ;; # Untracked files
+            "U") status_string+="$ZSH_THEME_GIT_PROMPT_UNMERGED" ;; # Unmerged/conflict files
+        esac
+    done <<< "$git_status"
+
+    # If no status, consider the working directory clean
+    if [ -z "$status_string" ]; then
+        status_string="$ZSH_THEME_GIT_PROMPT_CLEAN"
+    fi
+
+    echo -n "$status_string"
 }
 
 function get_time_stamp {
